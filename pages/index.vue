@@ -1,22 +1,37 @@
+<script setup lang="ts">
+  const email: Ref<string> = ref('');
+  const password: Ref<string> = ref('');
+
+//   const signIn = async (): Promise<void> => {
+//     await useAuth().signIn(email.value, password.value);
+//     if (useAuth().token.value) {
+//       navigateTo('/');
+//     }
+//   }
+</script>
+
+
 <template>
     <div>
-      <h1>ログイン画面</h1>
-      <div class="hogehoge">
-        <div class="flex">
-            <p>email</p>
-            <input type="text" v-model="email">
-        </div>
-        <div class="flex">
-            <p>password</p>
-            <input type="text" v-model="password">
-        </div>
-        <button @click="signIn"></button>
-        
-      </div>
+        <BaseCardBox class="Hoge
+        ">
+            <h1>ログイン画面</h1>
+            <form action="">
+                <div class="flex">
+                    <p>email</p>
+                    <BaseInputText v-model="email" />
+                </div>
+                <div class="flex">
+                    <p>password</p>
+                    <BaseInputText v-model="password" />
+                </div>
+            </form>
+        </BaseCardBox>
+
     </div>
   </template>
   
-  <script>
+  <!-- <script>
   import {
       getAuth,
       createUserWithEmailAndPassword,
@@ -57,5 +72,5 @@
           
       }
   }
-  </script>
+  </script> -->
   
