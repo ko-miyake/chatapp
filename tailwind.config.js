@@ -4,8 +4,14 @@ export default {
   theme: {
     extend: {
       colors:{
-        "baseColor":"#8395f9",
-        "secondaryColor":"#b8bdf2",
+        "baseColor":"#cbbddd",
+        "backgoundColor":"rgb(239, 240, 247)",
+        "baseBlueColor":"#84c9ef",
+        "baseGreenColor":"#b4d2ed",
+        "secondaryColor":"#dcb5d4",
+        "originColor":"#e3b1d2",
+        "inputColor":"rgb(252, 252, 252)",
+        "borderColor":"rgb(252, 252, 252)",
       }
     },
   },

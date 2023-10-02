@@ -4,6 +4,7 @@ import {
     signOut as firebaseSignOut,
     onAuthStateChanged,
     createUserWithEmailAndPassword,
+    updateProfile,
   } from 'firebase/auth'
   
   type Auth = {
@@ -19,37 +20,47 @@ import {
   
     const signIn = async (email: string, password: string): Promise<void> => {
       const auth = getAuth();
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      const idToken = await userCredential.user.getIdToken();
-      token.value = idToken;
+      // const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      // const idToken = await userCredential.user.getIdToken();
+      // token.value = idToken;
+      console.log(email);
+
+      signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const idToken = userCredential.user.getIdToken();
+        token.value = idToken;
+        console.log(token);
+        navigateTo('/')
+      })
+      .catch((error) => {
+        alert('パスワードまたはユーザIDが間違っています。');
+      });
     };
 
-    const signUp = async (email: string, password: string): Promise<void> => {
+    const signUp = async (email: string, password: string, userName: string): Promise<void> => {
       const auth = getAuth();
 
+      console.log(email);
       createUserWithEmailAndPassword(auth, email, password)
-          .then((userCredential) => {
-            const user = userCredential.user;
-            alert('登録完了しました。');
-            navigateTo('/login')
-          })
-          .catch((error) => {
-            switch (error.code) {
-              case 'auth/invalid-email':
-                  alert('このメールアドレスは無効です。');
-                break;
-              case 'auth/email-alerady-in-use':
-                  alert('このメールアドレスは既に使用されています。');
-                break;
-              default:
-                  alert('エラーにより登録ができませんでした。')
-                break;
-            }
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            console.log( errorCode );
-            console.log( errorMessage );
-          });
+      .then((userCredential) => {
+        const user = userCredential.user;
+        updateProfile(auth.currentUser,{displayName: userName})
+        alert('登録完了しました。');
+        navigateTo('/login')
+      })
+      .catch((error) => {
+        switch (error.code) {
+          case 'auth/invalid-email':
+              alert('このメールアドレスは無効です。');
+            break;
+          case 'auth/email-alerady-in-use':
+              alert('このメールアドレスは既に使用されています。');
+            break;
+          default:
+              alert('エラーにより登録ができませんでした。')
+            break;
+        }
+      });
     };
   
     const signOut = async (): Promise<void> => {

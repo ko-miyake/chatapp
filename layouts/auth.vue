@@ -3,12 +3,10 @@
 </script>
 
 <template>
-    <div class="wrapper bg-backgoundColor">
-      <TheHeader class="header" />
+    <div class="wrapper bg-backgoundColor py-8 px-4">
       <main class="main">
         <slot />  
       </main>
-      <TheFooter />
     </div>
 
 
@@ -17,7 +15,6 @@
   <style scoped>
     .wrapper{
       min-height: 100dvh;
-      padding: 1rem;
       font-family: Mangueira Alt,sans-serif;
     }
   </style>

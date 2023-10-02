@@ -1,26 +1,31 @@
 <script setup lang="ts">
+definePageMeta({
+  layout: "auth",
+});
+const email: Ref<string> = ref('');
+const password: Ref<string> = ref('');
+const userName: Ref<string> = ref('');
 
-
-const email: string = '';
-const password: string = '';
- 
-
+const signUp = async (): Promise<void> => {
+  console.log(email);
+  await useAuth().signUp(email.value, password.value, userName.value);
+}
 </script>
 
 <template>
     <div>
-        <BaseCardBox class="Hoge">
-            <h1>ログイン画面</h1>
-            <form action="">
-                <div class="flex">
-                    <p>email</p>
-                    <BaseInputText v-model="email" />
+        <BaseCardBox class="mx-auto max-w-xl	">
+            <h1 class="font-bold	mb-10">ユーザー登録</h1>
+                <div class="mb-6">
+                    <BaseInputText v-model="email" placeholder="メールアドレス"/>
                 </div>
-                <div class="flex">
-                    <p>password</p>
-                    <BaseInputText v-model="password" />
+                <div class="mb-6">
+                    <BaseInputText v-model="userName" placeholder="ユーザー名"/>
                 </div>
-            </form>
+                <div class="mb-6">
+                    <BaseInputText v-model="password" placeholder="パスワード" type="password"/>
+                </div>
+                <BaseButton @click="signUp">登録</BaseButton>
         </BaseCardBox>
 
     </div>

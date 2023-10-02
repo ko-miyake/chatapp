@@ -1,26 +1,21 @@
-<script>
-export default {
-  // modelの設定を行う
-  model: {
-    prop: 'parentInput', //　親モデルの値を'parentModel'というkeyで受け取る
-    event: 'input' // イベント種別
+<script setup lang="ts">
+const props = withDefaults(defineProps<{modelValue: string;}>(),
+{
+  modelValue: '' 
+});
+
+const emit = defineEmits<{
+  (e: 'update:modelValue', text: string): void
+}>();
+
+const text = computed({
+  get: () => props.modelValue,
+  set: (value) => { // 値に変更があると呼ばれるsetter
+    emit('update:modelValue', value);
   },
-  props: {
-    parentModel: String // 親モデルの値が入ってくるので、型を指定してあげる
-  },
-  computed: {
-    computedModel: {
-      get () {
-        return this.parentModel
-      },
-      set (value) {
-        this.$emit('input', value)
-      }
-    }
-  }
-}
+});
 </script>
 
 <template>
-     <input type="text" v-model="computedModel" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="John" required>
+     <input type="text" v-model="text" class="bg-inputColor border border-gray-300 text-gray-900 text-sm rounded focus-visible:outline-originColor focus-visible:border-originColor focus:border-originColor block w-full px-2 py-3 " required>
 </template>
