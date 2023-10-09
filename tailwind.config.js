@@ -12,9 +12,11 @@ export default {
         "originColor":"#e3b1d2",
         "inputColor":"rgb(252, 252, 252)",
         "borderColor":"rgb(252, 252, 252)",
+      },
+      maxWidth: {
+        '50p': '50%',
       }
     },
   },
   plugins: [],
 }
-

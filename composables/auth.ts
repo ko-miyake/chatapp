@@ -8,42 +8,40 @@ import {
   } from 'firebase/auth'
   
   type Auth = {
-    token: globalThis.Ref<string | null>;
+    token: globalThis.Ref<User | null>;
     signIn: (email: string, password: string) => Promise<void>;
     signUp: (email: string, password: string, userName: string) => Promise<void>
     signOut: () => Promise<void>;
     checkAuthState: () => void;
   };
-  
+
   export const useAuth = (): Auth => {
     const token = useToken();
   
     const signIn = async (email: string, password: string): Promise<void> => {
       const auth = getAuth();
-      // const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      // const idToken = await userCredential.user.getIdToken();
-      // token.value = idToken;
-      console.log(email);
 
       signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        const idToken = userCredential.user.getIdToken();
-        token.value = idToken;
-        console.log(token);
+        token.value.token = userCredential.user.accessToken;    
+        token.value.email = userCredential.user.email;
+        token.value.uid = userCredential.user.uid;
+        token.value.userName = userCredential.user.displayName;
         navigateTo('/')
       })
       .catch((error) => {
         alert('パスワードまたはユーザIDが間違っています。');
+        console.log(error)
       });
+      
     };
+
 
     const signUp = async (email: string, password: string, userName: string): Promise<void> => {
       const auth = getAuth();
 
-      console.log(email);
       createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        const user = userCredential.user;
         updateProfile(auth.currentUser,{displayName: userName})
         alert('登録完了しました。');
         navigateTo('/login')
@@ -75,8 +73,9 @@ import {
       const auth = getAuth();
       onAuthStateChanged(auth, async (user) => {
         if(user) {
+          console.log(user);
           const idToken = await user.getIdToken();
-          token.value = idToken;
+          token.value.token = idToken;
         } else {
           token.value = null;
         }

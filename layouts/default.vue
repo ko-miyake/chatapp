@@ -5,7 +5,7 @@
 <template>
     <div class="wrapper bg-backgoundColor">
       <TheHeader class="header" />
-      <main class="main">
+      <main class="main p-4">
         <slot />  
       </main>
       <TheFooter />
@@ -17,7 +17,8 @@
   <style scoped>
     .wrapper{
       min-height: 100dvh;
-      padding: 1rem;
       font-family: Mangueira Alt,sans-serif;
+      display: flex;
+      flex-direction: column;
     }
   </style>
