@@ -7,7 +7,7 @@ export default defineNuxtRouteMiddleware(async (to: RouteLocationNormalized) => 
   const { checkAuthState, token } = useAuth();
   await checkAuthState();
 
-//   console.log(token.value);
+  console.log(token);
   // tokenがなければログインページにリダイレクト
-  if (!token.value.token) return await navigateTo('/login', { replace: true });
+//   if (!token.value.token) return await navigateTo('/login', { replace: true });
 });

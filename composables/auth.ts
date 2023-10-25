@@ -6,6 +6,17 @@ import {
     createUserWithEmailAndPassword,
     updateProfile,
   } from 'firebase/auth'
+
+  import {
+    getFirestore,
+    collection,
+    where,
+    query,
+    setDoc,
+    doc,
+    getDocs,
+    addDoc
+  } from '@firebase/firestore';
   
   type Auth = {
     token: globalThis.Ref<User | null>;
@@ -39,14 +50,22 @@ import {
 
     const signUp = async (email: string, password: string, userName: string): Promise<void> => {
       const auth = getAuth();
+      const db = getFirestore();
 
       createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         updateProfile(auth.currentUser,{displayName: userName})
+        setDoc(doc(db, `/user/${auth.currentUser.uid}`), {
+          name: userName,
+          iconData: null,
+          profile: "",
+
+        });
         alert('登録完了しました。');
         navigateTo('/login')
       })
       .catch((error) => {
+        console.log(error);
         switch (error.code) {
           case 'auth/invalid-email':
               alert('このメールアドレスは無効です。');
@@ -76,6 +95,9 @@ import {
           console.log(user);
           const idToken = await user.getIdToken();
           token.value.token = idToken;
+          token.value.email = user.email;
+          token.value.uid = user.uid;
+          token.value.userName = user.displayName;
         } else {
           token.value = null;
         }

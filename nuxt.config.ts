@@ -1,5 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  app: {
+    layoutTransition: { name: 'layout', mode: 'out-in' }
+  },
   modules: ["@nuxtjs/tailwindcss"], // モジュールの使用
   runtimeConfig: {
       apiKey: '',
@@ -20,6 +23,9 @@ export default defineNuxtConfig({
       pathPrefix: false,
     },
   ],
-  ssr: false
-
+  ssr: false,
+  css: [
+    '~/assets/css/main.css'
+  ],
 });
+

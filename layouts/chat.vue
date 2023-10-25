@@ -1,24 +1,23 @@
-<script>
-
-</script>
-
 <template>
     <div class="wrapper bg-backgoundColor">
-      <TheHeader class="header" />
-      <main class="main p-4">
+      <TheHeader class="header fixed top-0 w-full" />
+      <main class="main pt-14 pb-78">
         <slot />  
       </main>
-      <TheFooter />
+      <ChatFooter class="fixed bottom-0 w-full" />
     </div>
 
 
   </template>
-
-<style scoped>
+  
+  <style scoped>
     .wrapper{
       min-height: 100dvh;
       font-family: Mangueira Alt,sans-serif;
       display: flex;
       flex-direction: column;
     }
-</style>
+    .pb-78{
+      padding-bottom: 78px;
+    }
+  </style>

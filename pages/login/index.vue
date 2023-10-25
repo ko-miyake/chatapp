@@ -21,7 +21,7 @@
                 <div class="mb-6">
                     <BaseInputText v-model="password" placeholder="パスワード" type="password"/>
                 </div>
-                <BaseButton @click="signUp">登録</BaseButton>
+                <BaseButton class="w-full" @click="signUp">登録</BaseButton>
         </BaseCardBox>
 
     </div>

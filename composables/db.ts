@@ -7,13 +7,25 @@ type ChatRoom = {
     date: string | null
 }
 
+type ChatText = {
+    chatroom: string| null,
+    username: string | null,
+    userID: string | null
+    text: string | null,
+    date: string | null
+}
+
 type DB = {
-    chatrooms, 
+    chatRooms: ChatRoom[] | null,
+    viewMessage: ChatText[] | null, 
+    sendChat: () => Promise<void>;
     createChatRoom: () => Promise<void>;
     getChatRooms: () => Promise<any>;
+    getRoom: () => Promise<void>;
 };
 export const useDB = (): DB => {
-    let chatrooms = [];
+    const chatRooms: ChatRoom[] | null = useState('chatrooms', ()=> null)
+    const viewMessage: ChatText[] | null = useState('viewMessage', () => null); 
 
     // 新規ルール作成
     const createChatRoom = async (chatroomName:string):Promise<void> => {
@@ -34,18 +46,55 @@ export const useDB = (): DB => {
         const db = getDatabase();
         const ref_message =  ref(db, 'chatroom');          
         onValue(ref_message, (snapshot) => {
-            // useState('chatrooms', () => snapshot.val());
-            chatrooms = snapshot.val();
+            chatRooms.value = snapshot.val();
+            // const chatrooms = useState('chatrooms', () => snapshot.val());
         });
-        console.log(chatrooms);
-        return chatrooms;
+        // const rooms = useState('chatrooms');
+        // console.log(useState('chatrooms'));
+        // return useState('chatrooms');
+        return chatRooms;
     }
+
+    const getRoom = async ( id:string ) :Promise<ChatText[] | null> => {
+        const db = getDatabase();
+        console.log(id);
+        const ref_message =  ref(db, `message/${id}`);
+        onValue(ref_message, (snapshot) => {
+            viewMessage.value = snapshot.val();
+            // const roomVal = useState('room',() => snapshot.val()); 
+        });
+        console.log(viewMessage);
+        const element = document.documentElement;
+        const bottom: number = element.scrollHeight - element.clientHeight;
+        window.scroll(0, bottom); 
+        return viewMessage;
+    }
+
+    const sendChat = async (text:string, chatroom:string):Promise<void> => {
+        const { token } =  useAuth();
+        const db = getDatabase();
+        const postListRef = ref(db, `message/${chatroom}`);
+        const now: Date = new Date();
+
+        console.log(chatroom);
+
+        push(postListRef, {
+            chatroom: chatroom,
+            username: token.value.userName,
+            userID: token.value.uid,
+            text: text,
+            date: now.getMonth() + 1 + '/' + now.getDate() + '/' + now.getHours() + '時' + now.getMinutes() + '分'
+      });
+}
     
         
     return{
-        chatrooms,
+        chatRooms,
+        viewMessage,
+        sendChat,
         createChatRoom,
-        getChatRooms
+        getChatRooms,
+        getRoom
     }
 
 }

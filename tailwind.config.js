@@ -15,6 +15,9 @@ export default {
       },
       maxWidth: {
         '50p': '50%',
+      },
+      rounded: {
+        '50p': '50%',
       }
     },
   },
