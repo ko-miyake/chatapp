@@ -3,6 +3,7 @@ export type User ={
   uid: string | null,
   userName: string | null,
   email: string | null,
+  photoURL: string | null,
 }
 
 export const useToken = (): globalThis.Ref<User | null> =>
@@ -12,6 +13,7 @@ export const useToken = (): globalThis.Ref<User | null> =>
       uid: null,
       userName: null,
       email: null,
+      photoURL: null
     };
 });
 

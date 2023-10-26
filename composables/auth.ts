@@ -24,6 +24,7 @@ import {
     signUp: (email: string, password: string, userName: string) => Promise<void>
     signOut: () => Promise<void>;
     checkAuthState: () => void;
+    changeUserName: (name: string) => void
   };
 
   export const useAuth = (): Auth => {
@@ -38,34 +39,37 @@ import {
         token.value.email = userCredential.user.email;
         token.value.uid = userCredential.user.uid;
         token.value.userName = userCredential.user.displayName;
+        token.value.photoURL = userCredential.user.photoURL;
         navigateTo('/')
       })
       .catch((error) => {
         alert('パスワードまたはユーザIDが間違っています。');
-        console.log(error)
       });
       
     };
 
 
     const signUp = async (email: string, password: string, userName: string): Promise<void> => {
+      const iconUrl = 'https://firebasestorage.googleapis.com/v0/b/realtimechat-5a1ad.appspot.com/o/f_f_object_174_s512_f_object_174_0nbg.png?alt=media&token=5fff03bc-3402-453c-874c-0c7d1cc551f0&_gl=1*a860gj*_ga*MjA4MTI4MDQ0OS4xNjk1MDk0OTAz*_ga_CW55HF8NVT*MTY5ODMyMDU0MS41Mi4xLjE2OTgzMjA4MjAuNTcuMC4w';
       const auth = getAuth();
       const db = getFirestore();
 
       createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        updateProfile(auth.currentUser,{displayName: userName})
+        updateProfile(auth.currentUser,
+          {
+            displayName: userName,
+            photoURL: iconUrl
+          })
         setDoc(doc(db, `/user/${auth.currentUser.uid}`), {
           name: userName,
-          iconData: null,
+          iconData: iconUrl,
           profile: "",
-
         });
         alert('登録完了しました。');
         navigateTo('/login')
       })
       .catch((error) => {
-        console.log(error);
         switch (error.code) {
           case 'auth/invalid-email':
               alert('このメールアドレスは無効です。');
@@ -83,7 +87,12 @@ import {
     const signOut = async (): Promise<void> => {
       const auth = getAuth();
       await firebaseSignOut(auth);
-      token.value = null;
+      token.value.token = null;    
+      token.value.email = null;
+      token.value.uid = null;
+      token.value.userName = null;
+      token.value.photoURL = null;
+      navigateTo('/login')
     };
   
     const checkAuthState = (): void => {
@@ -92,17 +101,30 @@ import {
       const auth = getAuth();
       onAuthStateChanged(auth, async (user) => {
         if(user) {
-          console.log(user);
           const idToken = await user.getIdToken();
           token.value.token = idToken;
           token.value.email = user.email;
           token.value.uid = user.uid;
           token.value.userName = user.displayName;
+          token.value.photoURL = user.photoURL;
         } else {
-          token.value = null;
-        }
+          token.value.token = null;    
+          token.value.email = null;
+          token.value.uid = null;
+          token.value.userName = null;
+          token.value.photoURL = null;        }
       });
     };
+
+    const changeUserName = (name:string): void => {
+      const auth = getAuth();
+        updateProfile(auth.currentUser,{ displayName: name,})
+        .then(() => {
+          alert('登録が完了しました。');
+        }).catch((error) => {
+          alert('エラーにより登録ができませんでした。');
+        });
+    }
   
     return {
       signIn,
@@ -110,5 +132,6 @@ import {
       signUp,
       token,
       checkAuthState,
+      changeUserName,
     }
   }

@@ -4,12 +4,12 @@ export default {
   theme: {
     extend: {
       colors:{
-        "baseColor":"#cbbddd",
+        "baseColor":"#445a5a",
         "backgoundColor":"rgb(239, 240, 247)",
         "baseBlueColor":"#84c9ef",
         "baseGreenColor":"#b4d2ed",
         "secondaryColor":"#dcb5d4",
-        "originColor":"#e3b1d2",
+        "originColor":"#57beaf",
         "inputColor":"rgb(252, 252, 252)",
         "borderColor":"rgb(252, 252, 252)",
       },

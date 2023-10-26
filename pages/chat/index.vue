@@ -4,10 +4,7 @@
     const db = getFirestore();
     const {token} = useAuth();
 
-
-
-    // Create an initial document to update.
-    console.log(token.uid);
+ // Create an initial document to update.
     const frankDocRef = doc(db, `/user/${token.uid}`);
     
     await setDoc(frankDocRef, {

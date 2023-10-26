@@ -1,34 +1,47 @@
 <script setup lang="ts">
-  definePageMeta({
-    layout: "auth",
-  });
   const email: Ref<string> = ref('');
   const password: Ref<string> = ref('');
   const userName: Ref<string> = ref('');
 
-  let emailErrorMassage : Ref<string> = ref('');
-  let passwordErrorMassage: Ref<string> = ref('');
-  const emailRegexp = /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]{1,}\.[A-Za-z0-9]{1,}$/;
-  const passwordRegexp = /^(?=.*?[a-z])(?=.*?\d)[a-z\d]{8,20}$/i;
+  const emailErrorMassage : Ref<string> = ref('');
+  const passwordErrorMassage: Ref<string> = ref('');
+  const userErrorMassage: Ref<string> = ref('');
+  const emailRegexp: RegExp= /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]{1,}\.[A-Za-z0-9]{1,}$/;
+  const passwordRegexp: RegExp = /^(?=.*?[a-z])(?=.*?\d)[a-z\d]{8,20}$/i;
 
 const signUp = async (): Promise<void> => {
-  
-      if (emailRegexp.test(email.value)) {
-        emailErrorMassage.value = "このメールアドレスは無効です。正しい形式で入力してください。";
-      }
-      if (passwordRegexp.test(password.value)) {
-        passwordErrorMassage.value = "このパスワードは無効です。半角英数字を含んで8-20文字の範囲内で入力してください。";
-      }
+      let emailFlg: boolean = false;
+      let passwordFlg: boolean = false;
+
       if (email.value === "") {
         emailErrorMassage.value = "メールアドレスを入力してください。";
+        emailFlg = true;
       }
       if (password.value === "") {
         passwordErrorMassage.value = "パスワードを入力してください。";
+        passwordFlg = true;
       }
-      if (emailErrorMassage.value !== "" || passwordErrorMassage.value !== "") {
+      if (userName.value === "") {
+        userErrorMassage.value = "ユーザー名を入力してください。";
+      }else{
+        userErrorMassage.value = "";
+      }
+      if (!emailRegexp.test(email.value)) {
+        emailErrorMassage.value = "このメールアドレスは無効です。正しい形式で入力してください。";
+        emailFlg = true;
+      }else{
+        emailErrorMassage.value = "";
+      }
+      if (!passwordRegexp.test(password.value)) {
+        passwordErrorMassage.value = "このパスワードは無効です。半角英数字を含んで8-20文字の範囲内で入力してください。";
+        passwordFlg = true;
+      }else{
+        passwordErrorMassage.value = "";
+      }
+
+      if (emailFlg || passwordFlg || userName.value == "") {
         return;
       }
-      
       await useAuth().signUp(email.value, password.value, userName.value);
 }
 
@@ -46,6 +59,7 @@ const signUp = async (): Promise<void> => {
                 </div>
                 <div class="mb-6">
                     <BaseInputText v-model="userName" placeholder="ユーザー名" require />
+                    <p v-if="userErrorMassage" class="hoge">{{ userErrorMassage }}</p>
                 </div>
                 <div class="mb-6">
                     <BaseInputText v-model="password" placeholder="パスワード" type="password" require />

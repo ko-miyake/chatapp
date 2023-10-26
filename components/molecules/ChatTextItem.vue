@@ -1,8 +1,17 @@
+<script setup lang="ts">
+  
+  const props = defineProps({
+    iconData: Promise<String>,
+  })
+  const iconData = ref(props.iconData);
+  const src = await iconData.value;
+</script>
+
 <template>
     <div>
-        <div>
+        <div class="text-center">
             <BaseIcon class="shrink-0">
-                <slot name="image"><img src="https://placehold.jp/150x150.png"/></slot>
+                <slot name="image"><img :src="src" /></slot>
             </BaseIcon>
             <slot name="name"><span>name</span></slot>
 

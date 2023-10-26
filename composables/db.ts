@@ -47,23 +47,16 @@ export const useDB = (): DB => {
         const ref_message =  ref(db, 'chatroom');          
         onValue(ref_message, (snapshot) => {
             chatRooms.value = snapshot.val();
-            // const chatrooms = useState('chatrooms', () => snapshot.val());
         });
-        // const rooms = useState('chatrooms');
-        // console.log(useState('chatrooms'));
-        // return useState('chatrooms');
         return chatRooms;
     }
 
     const getRoom = async ( id:string ) :Promise<ChatText[] | null> => {
         const db = getDatabase();
-        console.log(id);
         const ref_message =  ref(db, `message/${id}`);
         onValue(ref_message, (snapshot) => {
             viewMessage.value = snapshot.val();
-            // const roomVal = useState('room',() => snapshot.val()); 
         });
-        console.log(viewMessage);
         const element = document.documentElement;
         const bottom: number = element.scrollHeight - element.clientHeight;
         window.scroll(0, bottom); 
@@ -75,8 +68,6 @@ export const useDB = (): DB => {
         const db = getDatabase();
         const postListRef = ref(db, `message/${chatroom}`);
         const now: Date = new Date();
-
-        console.log(chatroom);
 
         push(postListRef, {
             chatroom: chatroom,

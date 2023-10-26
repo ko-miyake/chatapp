@@ -1,12 +1,8 @@
 <script setup lang="ts">
-  definePageMeta({
-    layout: "auth",
-  });
   const email: Ref<string> = ref('');
   const password: Ref<string> = ref('');
 
   const signUp = async (): Promise<void> => {
-    console.log(email);
     await useAuth().signIn(email.value, password.value);
   }
 </script>
