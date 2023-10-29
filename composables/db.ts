@@ -44,7 +44,7 @@ export const useDB = (): DB => {
     // 全ルーム取得
     const getChatRooms = async () :Promise<any> => {
         const db = getDatabase();
-        const ref_message =  ref(db, 'chatroom');          
+        const ref_message =  ref(db, 'chatroom');
         onValue(ref_message, (snapshot) => {
             chatRooms.value = snapshot.val();
         });

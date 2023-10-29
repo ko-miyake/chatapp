@@ -4,6 +4,7 @@
 
   const createRoom = async (): Promise<void> => {
     await useDB().createChatRoom(chatRoomName.value);
+    chatRoomName.value = '';
   }
 
 </script>

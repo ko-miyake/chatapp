@@ -1,6 +1,4 @@
 <script setup lang="ts">
-    import { doc, setDoc, updateDoc, getFirestore } from "firebase/firestore"; 
-
     definePageMeta({
         layout: "chat",
     });

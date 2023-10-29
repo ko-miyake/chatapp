@@ -7,7 +7,12 @@
 <template>
     <header class="flex gap-4 overflow-hidden bg-white w-full p-4 items-center">
         <div>
-            <h1><NuxtLink to="/" class="flex gap-1 items-center"><img class="w-8" src="/images/chatImage.png"> ChatApp</NuxtLink></h1>
+            <template v-if="useRoute().path.indexOf('login') != -1 || useRoute().path.indexOf('register')  != -1">
+                <h1 class="flex gap-1 items-center"><img class="w-8" src="/images/chatImage.png"> ChatApp</h1>
+            </template>
+            <template v-else>
+                <h1><NuxtLink to="/" class="flex gap-1 items-center"><img class="w-8" src="/images/chatImage.png"> ChatApp</NuxtLink></h1>
+            </template>
         </div>
         <div class="ml-auto flex gap-2">
             <template v-if="useRoute().path.indexOf('login') != -1 || useRoute().path.indexOf('register')  != -1">
@@ -18,7 +23,6 @@
                 <NuxtLink to="/mypage" class="flex gap-1 items-center"> <img class="w-6 h-6" src="/images/user.png" alt=""> {{ token.userName }}さん</NuxtLink>
                 <p @click="logout">ログアウト</p>
             </template>
-
         </div>
     </header>
 </template>

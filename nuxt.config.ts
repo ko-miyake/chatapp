@@ -3,6 +3,9 @@ export default defineNuxtConfig({
   app: {
     layoutTransition: { name: 'layout', mode: 'out-in' }
   },
+  build: {
+    quiet: false
+  },
   modules: ["@nuxtjs/tailwindcss"], // モジュールの使用
   runtimeConfig: {
       apiKey: '',
@@ -23,9 +26,13 @@ export default defineNuxtConfig({
       pathPrefix: false,
     },
   ],
-  ssr: false,
   css: [
     '~/assets/css/main.css'
   ],
+  ssr:false,
+    // 以下追記項目
+    experimental: {
+      inlineSSRStyles: false,
+    }
 });
 

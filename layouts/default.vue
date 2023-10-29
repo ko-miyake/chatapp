@@ -14,11 +14,21 @@
 
   </template>
 
-<style scoped>
-    .wrapper{
+
+  <!-- ページトランジションを設定する場合は以下 -->
+  <style>
+      .wrapper{
       min-height: 100dvh;
       font-family: Mangueira Alt,sans-serif;
       display: flex;
       flex-direction: column;
     }
-</style>
+    .layout-enter-active,
+    .layout-leave-active {
+        transition: opacity 0.2s;
+    }
+    .layout-enter-from,
+    .layout-leave-to {
+        opacity: 0;
+    }
+  </style>
