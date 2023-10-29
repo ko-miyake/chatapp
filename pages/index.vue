@@ -1,6 +1,13 @@
-<script setup lang="ts">  
+<script setup lang="ts">
+    type ChatRoom = {
+        createUserName: string | null
+        createUserID: string | null,
+        title: string | null,
+        date: string | null
+    }
+
   const chatRoomName: Ref<string> = ref('');
-  const chatRooms = await useDB().getChatRooms();
+  const chatRooms: ChatRoom[] = await useDB().getChatRooms();
 
   const createRoom = async (): Promise<void> => {
     await useDB().createChatRoom(chatRoomName.value);

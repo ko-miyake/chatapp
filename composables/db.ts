@@ -20,7 +20,7 @@ type DB = {
     viewMessage: ChatText[] | null, 
     sendChat: () => Promise<void>;
     createChatRoom: () => Promise<void>;
-    getChatRooms: () => Promise<any>;
+    getChatRooms: () => Promise<ChatRoom[]>;
     getRoom: () => Promise<void>;
 };
 export const useDB = (): DB => {
@@ -42,7 +42,7 @@ export const useDB = (): DB => {
 
     }
     // 全ルーム取得
-    const getChatRooms = async () :Promise<any> => {
+    const getChatRooms = async () :Promise<ChatRoom[]> => {
         const db = getDatabase();
         const ref_message =  ref(db, 'chatroom');
         onValue(ref_message, (snapshot) => {

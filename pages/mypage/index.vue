@@ -1,7 +1,6 @@
 <script setup lang="ts">
     const { token } =  useAuth();
     const imageRef = ref(null);
-    const fName= token.value.userName;
     const name: Ref<string> = ref(token.value.userName);
     const img:string = token.value.photoURL;
 

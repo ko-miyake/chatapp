@@ -13,7 +13,6 @@ export const useStorage = (): Storage => {
         const { token } = useAuth();
         const auth = getAuth();
         const storage = getStorage();
-        const fileType = file.name.split('.').pop();
         const storageRef = ref(storage, `icon/${token.value.uid}/icon.png`);
         // Upload the file and metadata
         uploadBytesResumable(storageRef, file).then(() => {
