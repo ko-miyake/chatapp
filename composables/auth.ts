@@ -41,6 +41,7 @@ import {
         token.value.userName = userCredential.user.displayName;
         token.value.photoURL = userCredential.user.photoURL;
         navigateTo('/')
+        console.log(token);
       })
       .catch((error) => {
         alert('パスワードまたはユーザIDが間違っています。');
